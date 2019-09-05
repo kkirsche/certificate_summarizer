@@ -1,4 +1,4 @@
-module github.com/kkirsche/certsummarizer
+module github.com/kkirsche/certificate_summarizer
 
 go 1.13
 
