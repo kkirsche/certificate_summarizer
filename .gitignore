@@ -1,5 +1,7 @@
 #@ Custom
 bin
+urls.txt
+results
 
 #@ Go.gitignore
 #@ https://github.com/github/gitignore/blob/master/Go.gitignore
