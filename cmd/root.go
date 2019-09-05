@@ -17,7 +17,6 @@ package cmd
 import (
 	"bufio"
 	"crypto/tls"
-	"errors"
 	"fmt"
 	"log"
 	"net"
