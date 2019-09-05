@@ -79,17 +79,20 @@ var rootCmd = &cobra.Command{
 
 				// Grab the last certificate in the chain
 				certChain := conn.ConnectionState().PeerCertificates
-				cert := certChain[len(certChain)-1]
 
-				k := "O: " + strings.Join(cert.Subject.Organization, " ") + " OU: " + strings.Join(cert.Subject.OrganizationalUnit, " ")
-				summary[k]++
+        chainResults := ""
+        for _, cert := range certChain {
+          k := "O: " + strings.Join(cert.Issuer.Organization, " ") + " OU: " + strings.Join(cert.Issuer.OrganizationalUnit, " ")
+          summary[k]++
 
-				// Print the certificate
-				result, err := certinfo.CertificateText(cert)
-				if err != nil {
-					log.Fatal(err)
-				}
-				err = writeCertificateToFile(host, result)
+          // Print the certificate
+          result, err := certinfo.CertificateText(cert)
+          if err != nil {
+            log.Fatal(err)
+          }
+          chainResults = chainResults + result + "\n"
+        }
+				err = writeCertificateToFile(host, chainResults)
 				if err != nil {
 					log.Println(err.Error())
 					summary["write_error"]++
@@ -107,6 +110,9 @@ var rootCmd = &cobra.Command{
 		for k, v := range failures {
 			fmt.Printf("%s: %s\n", k, v)
 		}
+    if len(failures) == 0 {
+      fmt.Println("None")
+    }
 	},
 }
 
